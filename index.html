@@ -15,9 +15,9 @@
         :root {
             --bg: #f2f2f7;
             --surface: #ffffff;
-            --primary: #003d4d; /* Navy Petrol */
+            --primary: #003d4d;
             --logo-color: #003d4d;
-            --accent: #007aff;  /* ResqPedi Blue */
+            --accent: #007aff;
             --text: #1c1c1e;
             --text-sec: #8e8e93;
             --border: #d1d1d6;
@@ -43,7 +43,8 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            height: 100vh;
+            /* Fix pro 100% výšku na iOS */
+            height: 100dvh; 
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -53,10 +54,9 @@
         }
 
         header {
-            /* Notch fix nahoře */
             padding-top: env(safe-area-inset-top, 20px); 
             height: auto;
-            min-height: 60px;
+            min-height: 55px;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -64,26 +64,24 @@
             justify-content: center;
             position: relative;
             flex-shrink: 0;
-            padding-bottom: 10px;
+            padding-bottom: 5px;
         }
 
         .logo { 
             font-weight: 800; 
-            font-size: 1.2rem; 
+            font-size: 1.1rem; 
             letter-spacing: -0.5px; 
             color: var(--logo-color); 
             transition: color 0.3s ease;
-            margin-top: 5px;
         }
-        .logo span { color: var(--text-sec); font-size: 0.7rem; vertical-align: top; margin-left: 2px; }
+        .logo span { color: var(--text-sec); font-size: 0.6rem; vertical-align: top; margin-left: 2px; }
 
         .theme-toggle { 
             position: absolute; 
             right: 15px; 
-            /* Zarovnání s logem i při notchi */
-            bottom: 12px;
+            bottom: 8px;
             cursor: pointer; 
-            font-size: 1.2rem; 
+            font-size: 1.1rem; 
             background: none;
             border: none;
         }
@@ -91,9 +89,9 @@
         /* DASHBOARD */
         .dashboard {
             background: var(--surface);
-            margin: 10px;
-            padding: 15px;
-            border-radius: 16px;
+            margin: 8px;
+            padding: 12px;
+            border-radius: 14px;
             box-shadow: var(--shadow);
             display: flex;
             justify-content: space-around;
@@ -102,16 +100,16 @@
         }
 
         .stat { text-align: center; }
-        .stat-label { font-size: 0.65rem; font-weight: 700; color: var(--text-sec); text-transform: uppercase; margin-bottom: 4px; display: block; }
-        .stat-val { font-size: 1.6rem; font-weight: 900; color: var(--accent); line-height: 1; }
-        .stat-unit { font-size: 0.8rem; font-weight: 600; }
+        .stat-label { font-size: 0.6rem; font-weight: 700; color: var(--text-sec); text-transform: uppercase; margin-bottom: 2px; display: block; }
+        .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--accent); line-height: 1; }
+        .stat-unit { font-size: 0.75rem; font-weight: 600; }
 
         .weight-input {
-            width: 65px;
+            width: 55px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 4px;
-            font-size: 1.1rem;
+            border-radius: 6px;
+            padding: 3px;
+            font-size: 1rem;
             font-weight: 700;
             text-align: center;
             background: var(--bg);
@@ -119,13 +117,13 @@
         }
 
         .view-switch {
-            margin: 5px auto;
+            margin: 2px auto;
             background: rgba(118, 118, 128, 0.12);
             padding: 2px;
-            border-radius: 9px;
+            border-radius: 8px;
             display: flex;
-            width: 90%;
-            max-width: 300px;
+            width: 85%;
+            max-width: 280px;
             flex-shrink: 0;
         }
 
@@ -133,16 +131,16 @@
             flex: 1;
             border: none;
             background: none;
-            padding: 8px;
-            font-size: 0.75rem;
+            padding: 6px;
+            font-size: 0.7rem;
             font-weight: 600;
-            border-radius: 7px;
+            border-radius: 6px;
             color: var(--text);
         }
 
         .switch-btn.active {
             background: var(--surface);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .body-canvas {
@@ -150,8 +148,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 5px;
             overflow: hidden;
+            min-height: 0; /* Klíčové pro správné smrštění SVG */
         }
 
         svg { height: 100%; width: auto; max-width: 100%; display: none; }
@@ -171,21 +170,21 @@
         }
 
         .actions {
-            /* Safe area fix dole pro iPhony bez home buttonu */
-            padding: 10px 15px calc(15px + env(safe-area-inset-bottom, 10px));
+            padding: 10px 15px calc(10px + env(safe-area-inset-bottom, 15px));
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         .btn {
             border: none;
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             cursor: pointer;
             display: flex;
@@ -195,9 +194,8 @@
         }
 
         .btn-call { background: var(--primary); color: white; }
-        .btn-reset { background: rgba(255, 59, 48, 0.1); color: #ff3b30; }
+        .btn-reset { background: rgba(255, 59, 48, 0.1); color: #ff3b30; padding: 10px; }
 
-        /* MODALS */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -271,7 +269,6 @@
         <rect class="part" data-pct="3" x="113" y="310" width="32" height="70" rx="4" />
         <rect class="part" data-pct="3" x="113" y="385" width="32" height="20" rx="4" />
     </svg>
-
     <svg id="svg-back" viewBox="0 0 220 450">
         <path class="part" data-pct="4.5" d="M110,20 c-15,0-25,12-25,28 s10,25,25,25 s25-10,25-25 s-10-28-25-28" />
         <rect class="part" data-pct="9" x="75" y="80" width="70" height="60" rx="4" />
@@ -294,17 +291,17 @@
 <div class="actions">
     <button class="btn btn-call" onclick="showModal('modal-call')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        Konzultace s centrem
+        Konzultovat s centrem
     </button>
-    <button class="btn btn-reset" onclick="showModal('modal-reset')">Smazat mapu</button>
+    <button class="btn btn-reset" onclick="showModal('modal-reset')">RESET MAPY</button>
 </div>
 
 <div id="modal-call" class="modal-overlay">
     <div class="modal">
-        <h3>Potvrdit volání?</h3>
+        <h3>Telefonická konzultace PC FNKV?</h3>
         <p>BSA: <strong id="m-pct">0</strong>% | PNP 1h: <strong id="m-ml">0</strong> ml</p>
         <div class="modal-btns">
-            <button class="btn-confirm" onclick="window.location.href='tel:+420267161111'">VYTOČIT</button>
+            <button class="btn-confirm" onclick="window.location.href='tel:+420602322184'">VYTOČIT</button>
             <button class="btn-cancel" onclick="closeModal()">Zrušit</button>
         </div>
     </div>
