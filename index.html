@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="ResqBurns">
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
@@ -28,14 +28,14 @@
             --bg: #000000;
             --surface: #1c1c1e;
             --text: #ffffff;
-            --logo-color: #ffffff; /* Nadpis bíle v dark modu */
+            --logo-color: #ffffff;
             --border: #38383a;
         }
 
         * { 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            user-select: none; /* Zamezí nechtěnému výběru textu v terénu */
+            user-select: none;
         }
 
         body {
@@ -47,14 +47,16 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: fixed; /* Fixace proti bounce efektu na iOS */
+            position: fixed; 
             width: 100%;
             transition: background 0.3s ease;
         }
 
         header {
-            height: 60px;
-            padding-top: env(safe-area-inset-top); /* Respektuje notch u iPhonu */
+            /* Notch fix nahoře */
+            padding-top: env(safe-area-inset-top, 20px); 
+            height: auto;
+            min-height: 60px;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -62,6 +64,7 @@
             justify-content: center;
             position: relative;
             flex-shrink: 0;
+            padding-bottom: 10px;
         }
 
         .logo { 
@@ -70,13 +73,15 @@
             letter-spacing: -0.5px; 
             color: var(--logo-color); 
             transition: color 0.3s ease;
+            margin-top: 5px;
         }
         .logo span { color: var(--text-sec); font-size: 0.7rem; vertical-align: top; margin-left: 2px; }
 
         .theme-toggle { 
             position: absolute; 
             right: 15px; 
-            top: calc(15px + env(safe-area-inset-top));
+            /* Zarovnání s logem i při notchi */
+            bottom: 12px;
             cursor: pointer; 
             font-size: 1.2rem; 
             background: none;
@@ -113,7 +118,6 @@
             color: var(--text);
         }
 
-        /* VIEW SWITCH */
         .view-switch {
             margin: 5px auto;
             background: rgba(118, 118, 128, 0.12);
@@ -134,7 +138,6 @@
             font-weight: 600;
             border-radius: 7px;
             color: var(--text);
-            transition: 0.2s;
         }
 
         .switch-btn.active {
@@ -142,7 +145,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* SVG CANVAS */
         .body-canvas {
             flex: 1;
             display: flex;
@@ -168,9 +170,9 @@
             stroke: #005bbd;
         }
 
-        /* ACTIONS */
         .actions {
-            padding: 10px 15px calc(15px + env(safe-area-inset-bottom)); /* Bezpečné ukončení u iPhonů bez tlačítka */
+            /* Safe area fix dole pro iPhony bez home buttonu */
+            padding: 10px 15px calc(15px + env(safe-area-inset-bottom, 10px));
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: grid;
@@ -231,7 +233,7 @@
 
 <div class="dashboard">
     <div class="stat">
-        <span class="stat-label">Plocha (TBSA)</span>
+        <span class="stat-label">Plocha (BSA)</span>
         <div class="stat-val" id="res-pct">0<span class="stat-unit">%</span></div>
     </div>
     <div class="stat">
@@ -240,14 +242,14 @@
         <span class="stat-unit">kg</span>
     </div>
     <div class="stat">
-        <span class="stat-label">Tekutiny (v 1. hodině)</span>
+        <span class="stat-label">Tekutiny (1h PNP)</span>
         <div class="stat-val" id="res-fluids">0<span class="stat-unit">ml</span></div>
     </div>
 </div>
 
 <div class="view-switch">
-    <button id="btn-front" class="switch-btn active" onclick="switchView('front')">PŘEDNÍ ČÁST</button>
-    <button id="btn-back" class="switch-btn" onclick="switchView('back')">ZADNÍ ČÁST</button>
+    <button id="btn-front" class="switch-btn active" onclick="switchView('front')">PŘEDNÍ</button>
+    <button id="btn-back" class="switch-btn" onclick="switchView('back')">ZADNÍ</button>
 </div>
 
 <div class="body-canvas">
@@ -292,17 +294,17 @@
 <div class="actions">
     <button class="btn btn-call" onclick="showModal('modal-call')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        📞  Konzultace s popáleninovým centrem
+        Konzultace s centrem
     </button>
-    <button class="btn btn-reset" onclick="showModal('modal-reset')">RESET</button>
+    <button class="btn btn-reset" onclick="showModal('modal-reset')">Smazat mapu</button>
 </div>
 
 <div id="modal-call" class="modal-overlay">
     <div class="modal">
-        <h3>Opravdu chcete volat konzultaci PC FNKV?</h3>
+        <h3>Potvrdit volání?</h3>
         <p>BSA: <strong id="m-pct">0</strong>% | PNP 1h: <strong id="m-ml">0</strong> ml</p>
         <div class="modal-btns">
-            <button class="btn-confirm" onclick="window.location.href='tel:+420267161111'">📞 VOLAT 📞</button>
+            <button class="btn-confirm" onclick="window.location.href='tel:+420267161111'">VYTOČIT</button>
             <button class="btn-cancel" onclick="closeModal()">Zrušit</button>
         </div>
     </div>
@@ -311,7 +313,7 @@
 <div id="modal-reset" class="modal-overlay">
     <div class="modal">
         <h3>Smazat vše?</h3>
-        <p>Opravdu chcete vyčistit mapu popálení?</p>
+        <p>Opravdu chcete vyčistit mapu?</p>
         <div class="modal-btns">
             <button class="btn-danger" onclick="resetAll()">SMAZAT</button>
             <button class="btn-cancel" onclick="closeModal()">Zpět</button>
@@ -337,7 +339,6 @@
         document.getElementById('svg-back').classList.remove('active');
         document.getElementById('btn-front').classList.remove('active');
         document.getElementById('btn-back').classList.remove('active');
-
         document.getElementById('svg-' + view).classList.add('active');
         document.getElementById('btn-' + view).classList.add('active');
     }
@@ -348,11 +349,8 @@
             total += parseFloat(p.getAttribute('data-pct'));
         });
         currentPct = total;
-        
         const w = document.getElementById('weight').value;
-        // PNP Formula: Parkland/2 / 8h
         currentMl = Math.round(((4 * w * total) / 2) / 8);
-
         document.getElementById('res-pct').innerHTML = total + '<span class="stat-unit">%</span>';
         document.getElementById('res-fluids').innerHTML = currentMl + '<span class="stat-unit">ml</span>';
     }
@@ -372,7 +370,6 @@
         calculate();
         closeModal();
     }
-
     init();
 </script>
 </body>
